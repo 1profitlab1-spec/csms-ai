@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            /* Add a subtle gradient with a purple hue for depth */
+            background: radial-gradient(ellipse at bottom, #1a1023 0%, #050505 100%);
+        }
+        .glassmorphism {
+            /* Apple-like dark glassmorphism with a purple tint */
+            background: rgba(28, 20, 36, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        @keyframes glow {
+            /* Muted purple glow */
+            0% { text-shadow: 0 0 5px rgba(192, 132, 252, 0.2), 0 0 10px rgba(192, 132, 252, 0.1); }
+            50% { text-shadow: 0 0 10px rgba(192, 132, 252, 0.3), 0 0 20px rgba(192, 132, 252, 0.2); }
+            100% { text-shadow: 0 0 5px rgba(192, 132, 252, 0.2), 0 0 10px rgba(192, 132, 252, 0.1); }
+        }
+        @keyframes homing-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(192, 132, 252, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(192, 132, 252, 0); }
+        }
+        .transition-opacity.opacity-0 {
+            transition-property: opacity, transform;
+            transition-duration: 800ms;
+            transition-timing-function: ease-out;
+            transform: translateY(20px);
+        }
+        .transition-opacity.opacity-100.is-intersecting {
+             opacity: 1;
+             transform: translateY(0);
+        }
+    </style>
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            // New monochrome theme with purple accents
+            'brand-dark': '#0A0A0A',
+            'brand-darker': '#050505',
+            'brand-medium': '#1A1A1A',
+            'brand-border': '#2A2A2A',
+            'brand-text-primary': '#F0F0F0',
+            'brand-text-secondary': '#A0A0A0',
+            neutral: {
+              50: '#fafafa',
+              100: '#f5f5f5',
+              200: '#e5e5e5',
+              300: '#d4d4d4',
+              400: '#a3a3a3',
+              500: '#737373',
+              600: '#525252',
+              700: '#404040',
+              800: '#262626',
+              900: '#171717',
+              950: '#0a0a0a',
+            },
+            purple: {
+              50: '#faf5ff',
+              100: '#f3e8ff',
+              200: '#e9d5ff',
+              300: '#d8b4fe',
+              400: '#c084fc',
+              500: '#a855f7',
+              600: '#9333ea',
+              700: '#7e22ce',
+              800: '#6b21a8',
+              900: '#581c87',
+              950: '#3b0764',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+           animation: {
+            'fade-in': 'fade-in 0.5s ease-out forwards',
+            'spin': 'spin 1s linear infinite',
+            'glow': 'glow 3s ease-in-out infinite',
+            'homing-pulse': 'homing-pulse 2s infinite',
+          },
+          keyframes: {
+             'fade-in': {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+             'spin': {
+                from: { transform: 'rotate(0deg)' },
+                to: { transform: 'rotate(360deg)' },
+             },
+             'glow': {
+                '0%, 100%': { textShadow: '0 0 5px rgba(192, 132, 252, 0.2), 0 0 10px rgba(192, 132, 252, 0.1)' },
+                '50%': { textShadow: '0 0 10px rgba(192, 132, 252, 0.3), 0 0 20px rgba(192, 132, 252, 0.2)' },
+             },
+             'homing-pulse': {
+                '0%': { boxShadow: '0 0 0 0 rgba(192, 132, 252, 0.4)' },
+                '70%': { boxShadow: '0 0 0 10px rgba(192, 132, 252, 0)' },
+                '100%': { boxShadow: '0 0 0 0 rgba(192, 132, 252, 0)' },
+             }
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-brand-dark">
+    <!-- This is the root element where the React app will be mounted -->
+    <div id="root"></div>
+
+    <!-- Import Map -->
+    <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "marked": "https://cdn.jsdelivr.net/npm/marked@13.0.0/lib/marked.esm.js",
+    "dompurify": "https://cdn.jsdelivr.net/npm/dompurify@3.1.0/dist/purify.es.mjs",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "mermaid": "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs",
+    "react-hot-toast": "https://aistudiocdn.com/react-hot-toast@^2.6.0",
+    "react-syntax-highlighter/": "https://aistudiocdn.com/react-syntax-highlighter@^15.6.6/",
+    "react-syntax-highlighter": "https://aistudiocdn.com/react-syntax-highlighter@^15.6.6",
+    "remark-gfm": "https://aistudiocdn.com/remark-gfm@^4.0.1"
+  }
+}
+</script>
+    
+    <!-- Main application script -->
+    <script type="module" src="./index.tsx"></script>
+</body>
+</html>
